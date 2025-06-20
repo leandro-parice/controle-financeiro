@@ -27,7 +27,7 @@ class UploadController extends Controller
         ]);
     }
 
-    public function form()
+    public function create()
     {
         return Inertia::render('upload/index');
     }
@@ -46,7 +46,7 @@ class UploadController extends Controller
             'path' => $path,
         ]);
 
-        return redirect()->route('upload.index')->with('success', 'Arquivo enviado com sucesso!');
+        return redirect()->route('uploads.index')->with('success', 'Arquivo enviado com sucesso!');
     }
 
     public function destroy(UploadSpreadsheetFile $uploadSpreadsheetFile)
@@ -54,7 +54,7 @@ class UploadController extends Controller
         Storage::delete($uploadSpreadsheetFile->path);
         $uploadSpreadsheetFile->delete();
 
-        return redirect()->route('upload.list')
+        return redirect()->route('uploads.index')
             ->with('success', 'Arquivo excluído com sucesso!');
     }
 }

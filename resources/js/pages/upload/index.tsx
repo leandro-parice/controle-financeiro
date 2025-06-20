@@ -7,7 +7,7 @@ import { type BreadcrumbItem } from '@/types'
 import { useRef } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Upload', href: '/upload' },
+    { title: 'Upload', href: '/uploads' },
 ]
 
 interface FlashData{
@@ -27,7 +27,7 @@ export default function UploadPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        post(route('upload.store'), {
+        post(route('uploads.store'), {
             forceFormData: true,
             onSuccess: () => {
                 setData('file', null)

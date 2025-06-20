@@ -32,14 +32,14 @@ export default function UploadDataTable({ uploads, filters }: PageProps) {
   const [openId, setOpenId] = React.useState<number | null>(null)
 
   const handleDelete = (id: number) => {
-    router.delete(route('upload.destroy', id), {
+    router.delete(route('uploads.destroy', id), {
       preserveScroll: true,
     })
   }
 
   const handleSort = (column: string) => {
     const isAsc = filters.sort === column && filters.direction === 'asc'
-    router.get(route('upload.list'), {
+    router.get(route('uploads.index'), {
       sort: column,
       direction: isAsc ? 'desc' : 'asc',
     }, {

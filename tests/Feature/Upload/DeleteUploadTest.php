@@ -19,8 +19,8 @@ it('deletes the file and the record', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->delete(route('upload.destroy', $upload))
-        ->assertRedirect(route('upload.list', absolute: false));
+        ->delete(route('uploads.destroy', $upload))
+        ->assertRedirect(route('uploads.index', absolute: false));
 
     $this->assertDatabaseMissing('upload_spreadsheet_files', [
         'id' => $upload->id,
