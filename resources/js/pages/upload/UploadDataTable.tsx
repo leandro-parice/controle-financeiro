@@ -2,7 +2,8 @@ import * as React from 'react'
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { DataTable } from '@/components/ui/data-table'
-import { usePage, router } from '@inertiajs/react'
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { router } from '@inertiajs/react'
 
 interface Upload {
   id: number
@@ -28,12 +29,12 @@ interface PageProps {
 }
 
 export default function UploadDataTable({ uploads, filters }: PageProps) {
+  const [openId, setOpenId] = React.useState<number | null>(null)
+
   const handleDelete = (id: number) => {
-    if (confirm('Deseja realmente excluir este arquivo?')) {
-      router.delete(route('upload.destroy', id), {
-        preserveScroll: true,
-      })
-    }
+    router.delete(route('upload.destroy', id), {
+      preserveScroll: true,
+    })
   }
 
   const handleSort = (column: string) => {
@@ -79,9 +80,25 @@ export default function UploadDataTable({ uploads, filters }: PageProps) {
       id: 'actions',
       header: 'Ações',
       cell: ({ row }) => (
-        <Button variant="destructive" size="sm" onClick={() => handleDelete(row.original.id)}>
-          Remover
-        </Button>
+        <Dialog open={openId === row.original.id} onOpenChange={(open) => setOpenId(open ? row.original.id : null)}>
+          <DialogTrigger asChild>
+            <Button variant="destructive" size="sm" onClick={() => setOpenId(row.original.id)}>
+              Remover
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Remover arquivo</DialogTitle>
+            <DialogDescription>Deseja realmente excluir este arquivo?</DialogDescription>
+            <DialogFooter className="gap-2">
+              <DialogClose asChild>
+                <Button variant="secondary">Cancelar</Button>
+              </DialogClose>
+              <Button variant="destructive" onClick={() => { handleDelete(row.original.id); setOpenId(null); }}>
+                Remover
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       ),
     },
   ]
