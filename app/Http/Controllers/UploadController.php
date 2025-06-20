@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UploadSpreadsheetFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class UploadController extends Controller
@@ -50,7 +51,10 @@ class UploadController extends Controller
 
     public function destroy(UploadSpreadsheetFile $uploadSpreadsheetFile)
     {
+        Storage::delete($uploadSpreadsheetFile->path);
         $uploadSpreadsheetFile->delete();
-        return redirect()->route('upload.list')->with('success', 'Arquivo excluído com sucesso!');
+
+        return redirect()->route('upload.list')
+            ->with('success', 'Arquivo excluído com sucesso!');
     }
 }
