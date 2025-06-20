@@ -12,10 +12,10 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard',[DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/upload', [UploadController::class, 'form'])->name('upload.index');
-    Route::post('/upload', [UploadController::class, 'store'])->name('upload.store');
-    Route::get('/upload/list', [UploadController::class, 'index'])->name('upload.list');
-    Route::delete('/upload/{uploadSpreadsheetFile}', [UploadController::class, 'destroy'])->name('upload.destroy');
+    Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
+    Route::get('/uploads/create', [UploadController::class, 'create'])->name('uploads.create');
+    Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
+    Route::delete('/uploads/{uploadSpreadsheetFile}', [UploadController::class, 'destroy'])->name('uploads.destroy');
 });
 
 require __DIR__.'/settings.php';

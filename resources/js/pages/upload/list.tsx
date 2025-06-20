@@ -5,8 +5,8 @@ import UploadDataTable from '@/pages/upload/uploadDataTable'
 import Pagination from '@/components/ui/pagination'
 
 const breadcrumbs: BreadcrumbItem[] = [
-  { title: 'Upload', href: '/upload' },
-  { title: 'Listagem', href: '/upload/list' },
+  { title: 'Upload', href: '/uploads' },
+  { title: 'Listagem', href: '/uploads' },
 ]
 
 export default function UploadListPage({ uploads, filters }: any) {

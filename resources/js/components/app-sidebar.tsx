@@ -15,7 +15,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Upload',
-        href: '/upload',
+        href: '/uploads',
         icon: LayoutGrid,
     },
 ];
