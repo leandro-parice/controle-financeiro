@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
     Route::delete('/uploads/{uploadSpreadsheetFile}', [UploadController::class, 'destroy'])->name('uploads.destroy');
 
-    Route::get('/openai', fn () => Inertia::render('openai/index'))->name('openai.index');
+    Route::get('/openai', [OpenAIController::class, 'index'])->name('openai.index');
     Route::post('/openai/send-message', [OpenAIController::class, 'send'])->name('openai.send');
 });
 
