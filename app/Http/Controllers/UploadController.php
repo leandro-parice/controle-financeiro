@@ -18,7 +18,7 @@ class UploadController extends Controller
             ->paginate(50)
             ->withQueryString();
 
-        return Inertia::render('upload/list', [
+        return Inertia::render('upload/index', [
             'uploads' => $uploads,
             'filters' => [
                 'sort' => $sort,
@@ -29,7 +29,7 @@ class UploadController extends Controller
 
     public function create()
     {
-        return Inertia::render('upload/index');
+        return Inertia::render('upload/create');
     }
 
     public function store(Request $request)
