@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OpenAIController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,6 +17,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/uploads/create', [UploadController::class, 'create'])->name('uploads.create');
     Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
     Route::delete('/uploads/{uploadSpreadsheetFile}', [UploadController::class, 'destroy'])->name('uploads.destroy');
+
+    Route::get('/openai', fn () => Inertia::render('openai/index'))->name('openai.index');
+    Route::post('/openai/send-message', [OpenAIController::class, 'send'])->name('openai.send');
 });
 
 require __DIR__.'/settings.php';
