@@ -1,9 +1,16 @@
 import { useState } from 'react'
-import { Head, router } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import AppLayout from '@/layouts/app-layout'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { type BreadcrumbItem } from '@/types'
 import axios from 'axios'
 
@@ -11,16 +18,26 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'OpenAI', href: '/openai' },
 ]
 
+interface PdfFile {
+  id: number
+  name: string
+}
+
+interface PageProps {
+  pdfFiles: PdfFile[]
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant' | 'system'
   content: string
 }
 
-export default function OpenAIChatPage() {
+export default function OpenAIChatPage({ pdfFiles }: PageProps) {
   const [context, setContext] = useState('')
   const [message, setMessage] = useState('')
   const [history, setHistory] = useState<ChatMessage[]>([])
   const [loading, setLoading] = useState(false)
+  const [selectedPdf, setSelectedPdf] = useState('')
 
   const handleSend = async () => {
     if (!message.trim()) return
@@ -40,6 +57,7 @@ export default function OpenAIChatPage() {
     try {
         const res = await axios.post(route('openai.send'), {
             messages: newHistory,
+            pdf_id: selectedPdf || null,
         })
 
         const assistantReply = res.data.choices?.[0]?.message
@@ -64,6 +82,23 @@ export default function OpenAIChatPage() {
             onChange={(e) => setContext(e.target.value)}
             placeholder="Descreva o contexto da conversa..."
           />
+        </div>
+
+        <div className="space-y-2">
+          <label className="font-medium">Arquivo PDF (opcional)</label>
+          <Select value={selectedPdf} onValueChange={setSelectedPdf}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione um PDF" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Nenhum</SelectItem>
+              {pdfFiles.map((file) => (
+                <SelectItem key={file.id} value={String(file.id)}>
+                  {file.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="border-t pt-4 space-y-4 max-h-[50vh] overflow-y-auto pr-2">
